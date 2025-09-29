@@ -1,0 +1,13 @@
+Frequently Asked Questions
+
+Q: What programming languages do you work with?
+A: We specialize in JavaScript, Python, Java, and Go. We work with React, Next.js, Django, and Spring Boot.
+
+Q: How long does a typical project take?
+A: Simple websites take 2-4 weeks, complex applications take 3-6 months.
+
+Q: Do you provide ongoing maintenance?
+A: Yes, we offer maintenance packages including bug fixes and security updates.
+
+Q: What is your pricing model?
+A: We offer both fixed-price projects and hourly rates. Contact us for a quote.

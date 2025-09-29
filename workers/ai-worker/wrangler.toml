@@ -1,0 +1,16 @@
+name = "chatbot-ai-worker"
+main = "src/index.js"
+compatibility_date = "2024-01-15"
+
+# AI Binding for Cloudflare AI (native binding)
+[ai]
+binding = "AI"
+
+# Vectorize binding
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "chatbot-index"
+
+# Environment variables
+[vars]
+ALLOWED_ORIGINS = "http://localhost:3000,https://your-domain.pages.dev"
