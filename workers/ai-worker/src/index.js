@@ -56,23 +56,30 @@ app.get('/test-ai', async (c) => {
   }
 });
 
-// List all documents in vectorize
+// Fixed documents endpoint with proper Vectorize limits
 app.get('/documents', async (c) => {
   try {
-    // Query vectorize to get all documents
+    // Use a dummy vector to query all documents
     const dummyVector = Array(768).fill(0);
     const result = await c.env.VECTORIZE.query(dummyVector, { 
-      topK: 100,
+      topK: 50, // Reduced from 100 to 50 (Vectorize limit)
+      returnValues: false, // Set to false to allow higher topK
       returnMetadata: true 
     });
 
     const documents = result.matches.map(match => ({
       id: match.id,
-      source: match.metadata.source,
-      text: match.metadata.text.substring(0, 200) + '...',
-      timestamp: match.metadata.timestamp,
-      length: match.metadata.length
+      source: match.metadata.source || 'Unknown',
+      text: match.metadata.text ? 
+        (match.metadata.text.length > 200 ? 
+          match.metadata.text.substring(0, 200) + '...' : 
+          match.metadata.text
+        ) : 'No content',
+      timestamp: match.metadata.timestamp || new Date().toISOString(),
+      length: match.metadata.length || 0
     }));
+
+    console.log(`Found ${documents.length} documents`);
 
     return c.json({ 
       success: true, 
@@ -80,6 +87,7 @@ app.get('/documents', async (c) => {
       total: documents.length 
     });
   } catch (error) {
+    console.error('Documents fetch error:', error);
     return c.json({ 
       success: false, 
       error: error.message 
@@ -105,7 +113,6 @@ app.delete('/documents/:id', async (c) => {
   }
 });
 
-// Enhanced embed endpoint that processes various file formats
 app.post('/embed', async (c) => {
   try {
     const { texts, filename } = await c.req.json();
